@@ -14,9 +14,24 @@ module.exports = app => {
   });
 
   app.get('/api/blogs', requireLogin, async (req, res) => {
+    // const redis = require('redis');
+    // const redisUrl = 'redis://127.0.0.1:6379';
+    // const client = redis.createClient(redisUrl);
+    // const util = require('util');
+    // client.get = util.promisify(client.get);
+
+    // const catchedBlogs = await client.get(req.user.id);
+
+    // if(catchedBlogs){
+    // console.log("SERIVNG FROM CACHE...");
+    // return res.send(JSON.parse(catchedBlogs));
+    // }
     const blogs = await Blog.find({ _user: req.user.id });
 
     res.send(blogs);
+    // console.log("SERIVNG FROM MONGO...");
+
+    // client.set(req.user.id,JSON.stringify(blogs));
   });
 
   app.post('/api/blogs', requireLogin, async (req, res) => {
